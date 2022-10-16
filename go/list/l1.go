@@ -5,6 +5,42 @@ type ListNode struct {
 	Next *ListNode
 }
 
+// 合并K个升序链表
+// 输入：lists = [[1,4,5],[1,3,4],[2,6]]
+// 输出：[1,1,2,3,4,4,5,6]
+// 解释：链表数组如下：
+// [
+// 1->4->5,
+// 1->3->4,
+// 2->6
+// ]
+// 将它们合并到一个有序链表中得到。
+// 1->1->2->3->4->4->5->6
+func mergeKLists(lists []*ListNode) *ListNode {
+	dump := &ListNode{}
+	head := dump
+	m := make(map[int]*ListNode)
+	count := 0
+	for _, e := range lists {
+		if e == nil {
+			break
+		}
+		kv, ok := m[count]
+		if !ok {
+			m[count], kv = e, e
+		}
+		if kv.Val > e.Val {
+			m[count] = e
+		}
+	}
+	if m[count] != nil {
+		dump.Next = m[count]
+		dump = dump.Next
+		m[count] = dump.Next
+		delete(m, count)
+	}
+	return head.Next
+}
 
 func partition(head *ListNode, x int) *ListNode {
 	small := &ListNode{}
