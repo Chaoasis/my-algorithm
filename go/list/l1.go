@@ -5,6 +5,19 @@ type ListNode struct {
 	Next *ListNode
 }
 
+// 反转链表
+// 这里的return 都是返回最后的节点,是一个实例.没有改变过
+// head会改变,因为在回归
+func reverseList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	last := reverseList(head.Next)
+	head.Next.Next = head
+	head.Next = nil
+	return last
+}
+
 // 相交链表
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
 	l1, l2 := headA, headB
