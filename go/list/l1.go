@@ -5,6 +5,27 @@ type ListNode struct {
 	Next *ListNode
 }
 
+// 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	f := func(head *ListNode, n int) *ListNode {
+		pre := head
+		for i := 0; i < n; i++ {
+			pre = pre.Next
+		}
+		for pre != nil {
+			pre = pre.Next
+			head = head.Next
+		}
+		return head
+	}
+	//这里因为是获得倒数第几个节点,所以增加头节点不会影响到倒数节点的顺序
+	dump := &ListNode{}
+	dump.Next = head
+	node := f(dump, n+1)
+	node.Next = node.Next.Next
+	return dump.Next
+}
+
 // 合并K个升序链表
 // 输入：lists = [[1,4,5],[1,3,4],[2,6]]
 // 输出：[1,1,2,3,4,4,5,6]
